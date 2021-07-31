@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+
+import Register from "./components/Register";
+import Header from "./components/Header";
+import { UserContext } from "./context/UserContext";
 
 const App = () => {
   const [message, setMessage] = useState("");
+  const [token] = useContext(UserContext);
 
   const getWelcomeMessage = async () => {
     const requestOptions = {
@@ -23,10 +28,24 @@ const App = () => {
   useEffect(() => {
     getWelcomeMessage();
   }, []);
+
   return (
-    <div>
-      <h1>{message}</h1>
-    </div>
+    <>
+      <Header title={message} />
+      <div className="columns">
+        <div className="column"></div>
+        <div className="column m-5 is-two-thirds">
+          {!token ? (
+            <div className="columns">
+              <Register /> <p>Login</p>
+            </div>
+          ) : (
+            <p>Table</p>
+          )}
+        </div>
+        <div className="column"></div>
+      </div>
+    </>
   );
 };
 
